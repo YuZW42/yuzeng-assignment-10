@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .result-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .result-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+        .similarity-score {
+            margin: 10px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        .debug-info {
+            margin-top: 10px;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Top 5 Search Results</h1>
+    
+    <div class="results">
+        <div class="result-item">
+            <img src="{{ url_for('serve_image', filename=result.filename) }}" 
+                 alt="Search result" 
+                 onerror="this.onerror=null; this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\' viewBox=\'0 0 300 200\'><rect width=\'300\' height=\'200\' fill=\'%23ddd\'/><text x=\'50%\' y=\'50%\' text-anchor=\'middle\' fill=\'%23666\'>Image not found</text></svg>'"/>
+            <p class="similarity-score">Similarity: {{ "%.3f"|format(result.similarity) }}</p>
+            <p class="debug-info">Filename: {{ result.filename }}</p>
+        </div>
+    </div>
+
+    
+    <a href="/" class="back-button">Back to Search</a>
+</body>
+</html>

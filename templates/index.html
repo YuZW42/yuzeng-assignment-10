@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Search</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .search-form {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .pca-options {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Search</h1>
+    
+    <div class="search-form">
+        <form action="/search" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Query Type:</label>
+                <select name="query_type" id="queryType" onchange="updateFormFields()">
+                    <option value="text">Text Search</option>
+                    <option value="image">Image Search</option>
+                    <option value="hybrid">Hybrid Search</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="textField">
+                <label>Text Query:</label>
+                <input type="text" name="text" placeholder="Enter text query">
+            </div>
+            
+            <div class="form-group" id="imageField" style="display:none;">
+                <label>Image Query:</label>
+                <input type="file" name="image" accept="image/*">
+            </div>
+            
+            <div class="form-group" id="weightField" style="display:none;">
+                <label>Text Weight (0.0 - 1.0):</label>
+                <input type="number" name="weight" value="0.8" step="0.1" min="0" max="1">
+            </div>
+            
+            <div class="pca-options">
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="use_pca" id="usePca">
+                        Use PCA for image embeddings
+                    </label>
+                </div>
+                
+                <div class="form-group" id="pcaComponents" style="display:none;">
+                    <label>Number of PCA Components:</label>
+                    <input type="number" name="k_components" value="50" min="1" max="100">
+                </div>
+            </div>
+            
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <script>
+        function updateFormFields() {
+            const queryType = document.getElementById('queryType').value;
+            const textField = document.getElementById('textField');
+            const imageField = document.getElementById('imageField');
+            const weightField = document.getElementById('weightField');
+            
+            if (queryType === 'text') {
+                textField.style.display = 'block';
+                imageField.style.display = 'none';
+                weightField.style.display = 'none';
+            } else if (queryType === 'image') {
+                textField.style.display = 'none';
+                imageField.style.display = 'block';
+                weightField.style.display = 'none';
+            } else {
+                textField.style.display = 'block';
+                imageField.style.display = 'block';
+                weightField.style.display = 'block';
+            }
+        }
+        
+        document.getElementById('usePca').addEventListener('change', function() {
+            document.getElementById('pcaComponents').style.display = 
+                this.checked ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>

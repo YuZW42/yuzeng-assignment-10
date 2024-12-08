@@ -1,0 +1,28 @@
+# Python virtual environment
+venv/
+my-venv/
+__pycache__/
+
+coco_images_resized/
+
+# Environment files
+.env
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Cache directories
+_pycache_/
+
+# Pickle files
+*.pickle
+
+# Compiled files
+*.pyc
+
+# Model files
+*.pth
